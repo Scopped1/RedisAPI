@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id 'maven-publish'
+}
+
+group 'it.scopped'
+version '1.0'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation("redis.clients:jedis:4.4.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+}
+
+shadowJar {
+    archiveFileName = "RedisAPI.jar"
+    //archiveBaseName.set("RedisAPI")
+    //archiveVersion.set(version)
+    //archiveClassifier.set("")
+    destinationDirectory = file("C:\\Users\\coder\\IdeaProjects\\tests\\TestRedis\\lib")
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact shadowJar
+        }
+    }
+}
